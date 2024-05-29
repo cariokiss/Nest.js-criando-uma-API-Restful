@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
+import { UsuarioEntity } from "./entity/usuario.entity";
 
 @Injectable() // transforma a classe em um provider
 export class UsuarioRepository{
-    private usuarios = []; // cria uma variável privada
+    private usuarios: UsuarioEntity[] = []; // cria uma variável privada
 
-    async salvar(usuario) { // método para salvar um usuário
+    async salvar(usuario: UsuarioEntity) { // método para salvar um usuário
         this.usuarios.push(usuario); // pega o usuário e salva
     }
 
