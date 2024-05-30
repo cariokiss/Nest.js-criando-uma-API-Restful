@@ -1,14 +1,45 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
+import { ProdutoEntity } from './entity/produto.entity';
 
-@Injectable() // transforma a classe em um provider
-export class ProdutoRepository{
-    private produtos = []; // cria uma variável privada
+@Injectable()
+export class ProdutoRepository {
+  private produtos: ProdutoEntity[] = [];
 
-    async salvar(produto) { // método para salvar um usuário
-        this.produtos.push(produto); // pega o usuário e salva
+  listaTodos() {
+    return this.produtos;
+  }
+
+  async salva(dadosProduto: ProdutoEntity) {
+    this.produtos.push(dadosProduto);
+    return dadosProduto;
+  }
+
+  private buscaPorId(id: string) {
+    const possivelProduto = this.produtos.find((produto) => produto.id === id);
+
+    if (!possivelProduto) {
+      throw new Error('Produto não existe');
     }
 
-    async listar() { // método para listar os usuários
-        return(this.produtos); // pega os usuários criados e lista
-    }
+    return possivelProduto;
+  }
+
+  async atualiza(id: string, dadosProduto: Partial<ProdutoEntity>) {
+    const dadosNaoAtualizaveis = ['id', 'usuarioId'];
+    const produto = this.buscaPorId(id);
+    Object.entries(dadosProduto).forEach(([chave, valor]) => {
+      if (dadosNaoAtualizaveis.includes(chave)) {
+        return;
+      }
+      produto[chave] = valor;
+    });
+
+    return produto;
+  }
+
+  async remove(id: string) {
+    const produtoRemovido = this.buscaPorId(id);
+    this.produtos = this.produtos.filter((produto) => produto.id !== id);
+    return produtoRemovido;
+  }
 }
