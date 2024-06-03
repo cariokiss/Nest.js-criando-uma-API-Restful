@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ProdutoCaracteristicaEntity } from "./produto-caracteristica.entity";
+import { ProdutoImagemEntity } from "./produto-imagem.entity";
 
 @Entity({ name: 'produtos' })
 export class ProdutoEntity {
@@ -23,6 +25,14 @@ export class ProdutoEntity {
 
   @Column({ name: 'categoria', length: 100, nullable: false})
   categoria: string;
+
+  @OneToMany(() => ProdutoCaracteristicaEntity,
+      (produtoCaracteristicaEntity) => produtoCaracteristicaEntity.produto)
+  caracteristicas: ProdutoCaracteristicaEntity[];
+
+  @OneToMany(() => ProdutoImagemEntity,
+      (produtoImagemEntity) => produtoImagemEntity.produto)
+  imagens: ProdutoImagemEntity[];
   
   // caracteristicas: CaracteristicaProduto[];
   // imagens: ImagemProduto[];
