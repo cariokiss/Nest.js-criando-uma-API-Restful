@@ -14,6 +14,7 @@ export class ProdutoImagemEntity {
     descricao: string;
 
     @ManyToOne(() => ProdutoEntity,
-    (produto) => produto.imagens)
+    (produto) => produto.imagens, 
+    { orphanedRowAction: 'delete', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     produto: ProdutoEntity;
   }
