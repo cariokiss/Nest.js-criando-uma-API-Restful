@@ -31,8 +31,8 @@ import {
     produto.quantidadeDisponivel = dadosProduto.quantidadeDisponivel;
     produto.descricao = dadosProduto.descricao;
     produto.categoria = dadosProduto.categoria;
-    produto.caracteristicas = dadosProduto.caracteristicas;
-    produto.imagens = dadosProduto.imagens;
+    // produto.caracteristicas = dadosProduto.caracteristicas;
+    // produto.imagens = dadosProduto.imagens;
 
     // Aguarde a resposta do método salva para obter o produto criado
     const produtoCriado = await this.produtoRepository.salva(produto);

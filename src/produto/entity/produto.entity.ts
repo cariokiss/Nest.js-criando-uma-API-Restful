@@ -1,15 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-// class CaracteristicaProduto {
-//   nome: string;
-//   descricao: string;
-// }
-
-// class ImagemProduto {
-//   url: string;
-//   descricao: string;
-// }
-
 @Entity({ name: 'produtos' })
 export class ProdutoEntity {
 
