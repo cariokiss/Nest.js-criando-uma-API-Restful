@@ -30,7 +30,6 @@ import { ProdutoService } from './produto.service';
 
     produto.id = randomUUID();
     produto.nome = dadosProduto.nome;
-    produto.usuarioId = usuarioId; // Use o usuárioId recebido dos parâmetros de rota
     produto.valor = dadosProduto.valor;
     produto.quantidadeDisponivel = dadosProduto.quantidadeDisponivel;
     produto.descricao = dadosProduto.descricao;
