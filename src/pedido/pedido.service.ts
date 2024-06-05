@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CriaPedidoDto } from './dto/criaPedido.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './entity/pedido.entity';
@@ -20,18 +20,35 @@ export class PedidoService {
     private readonly produtoRepository: Repository<ProdutoEntity>
   ) {}
 
-  async cadastraPedido(usuarioId: string, dadosDoPedido: CriaPedidoDto) {
-    const usuario = await this.usuarioRepository.findOneBy({ id: usuarioId})
-    const produtosIds = dadosDoPedido.itensPedido.map((itemPedido) => itemPedido.produtoId)
+  private async buscaUsuario(id) {
+    const usuario = await this.usuarioRepository.findOneBy({ id });
 
-    const produtosRelacionados = await this.produtoRepository.findBy({id:In(produtosIds)})
+    if (usuario === null) {
+      throw new NotFoundException('O usuário não foi encontrado.')
+    }
+
+    return usuario;
+  }
+
+  async cadastraPedido(usuarioId: string, dadosDoPedido: CriaPedidoDto) {
+    const usuario = await this.buscaUsuario(usuarioId)
+
     const pedidoEntity = new PedidoEntity();
 
     pedidoEntity.status = StatusPedido.EM_PROCESSAMENTO;
     pedidoEntity.usuario = usuario
 
+    const produtosIds = dadosDoPedido.itensPedido.map((itemPedido) => itemPedido.produtoId)
+
+    const produtosRelacionados = await this.produtoRepository.findBy({id:In(produtosIds)})
+
     const itensPedidoEntidades = dadosDoPedido.itensPedido.map((itemPedido) => {
       const produtoRelacionado = produtosRelacionados.find((produto) => produto.id === itemPedido.produtoId)
+
+      if(produtoRelacionado === undefined) {
+        throw new NotFoundException(`O produto com id ${itemPedido.produtoId} não foi encontrado.`)
+      }
+
       const itemPedidoEntity = new ItemPedidoEntity();
 
       itemPedidoEntity.produto = produtoRelacionado!;
@@ -65,6 +82,10 @@ export class PedidoService {
 
   async atualizaPedido(id: string, dto: AtualizaPedidoDto) {
     const pedido = await this.pedidoRepository.findOneBy({id});
+
+    if (pedido === null) {
+      throw new NotFoundException('O pedido não foi encontrado.')
+    }
 
     Object.assign(pedido, dto);
 
