@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CriaPedidoDto } from './dto/criaPedido.dto';
-import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './entity/pedido.entity';
 import { In, Repository } from 'typeorm';
@@ -8,6 +7,7 @@ import { UsuarioEntity } from '.././usuario/entity/usuario.entity';
 import { StatusPedido } from './enum/status-pedido.enum';
 import { ItemPedidoEntity } from './entity/itemPedido.entity';
 import { ProdutoEntity } from '.././produto/entity/produto.entity';
+import { AtualizaPedidoDto } from './dto/atualizaPedido.dto';
 
 @Injectable()
 export class PedidoService {
@@ -61,5 +61,13 @@ export class PedidoService {
       relations: {usuario: true},
     });
     return pedidosSalvos;
+  }
+
+  async atualizaPedido(id: string, dto: AtualizaPedidoDto) {
+    const pedido = await this.pedidoRepository.findOneBy({id});
+
+    Object.assign(pedido, dto);
+
+    return this.pedidoRepository.save(pedido);
   }
 }
