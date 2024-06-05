@@ -4,9 +4,11 @@ import { PedidoController } from './pedido.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PedidoEntity } from './entity/pedido.entity';
 import { UsuarioEntity } from '../usuario/entity/usuario.entity';
+import { ItemPedidoEntity } from './entity/itemPedido.entity';
+import { ProdutoEntity } from 'src/produto/entity/produto.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PedidoEntity, UsuarioEntity])],
+  imports: [TypeOrmModule.forFeature([PedidoEntity, UsuarioEntity, ItemPedidoEntity, ProdutoEntity])],
   controllers: [PedidoController],
   providers: [PedidoService],
 })
