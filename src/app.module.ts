@@ -11,13 +11,13 @@ import { PedidoModule } from './pedido/pedido.module';
     UsuarioModule,
     ProdutoModule,
     ConfigModule.forRoot({
-      isGlobal: true 
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       useClass: PostgresConfigService,
-      inject: [PostgresConfigService]
+      inject: [PostgresConfigService],
     }),
-    PedidoModule
+    PedidoModule,
   ],
 })
 export class AppModule {}

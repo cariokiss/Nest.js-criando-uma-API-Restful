@@ -14,7 +14,6 @@ import {
 import { ProdutoEntity } from '../entity/produto.entity';
 
 export class CaracteristicaProdutoDTO {
-
   id: string;
 
   @IsString()
@@ -29,7 +28,6 @@ export class CaracteristicaProdutoDTO {
 }
 
 export class ImagemProdutoDTO {
-
   id: string;
 
   @IsUrl(undefined, { message: 'URL para imagem inválida' })
@@ -57,7 +55,9 @@ export class CriaProdutoDTO {
 
   @IsString()
   @IsNotEmpty({ message: 'Descrição do produto não pode ser vazia ' })
-  @MaxLength(1000, { message: 'Descrição não pode ter mais que 1000 caracteres' })
+  @MaxLength(1000, {
+    message: 'Descrição não pode ter mais que 1000 caracteres',
+  })
   descricao: string;
 
   @ValidateNested()

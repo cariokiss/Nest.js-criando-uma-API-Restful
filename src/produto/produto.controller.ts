@@ -1,25 +1,24 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    Put,
-  } from '@nestjs/common';
-  import { AtualizaProdutoDTO } from './dto/atualizaProduto.dto';
-  import { CriaProdutoDTO } from './dto/CriaProduto.dto';
-  import { ProdutoService } from './produto.service';
-  
-  @Controller('produtos')
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { AtualizaProdutoDTO } from './dto/atualizaProduto.dto';
+import { CriaProdutoDTO } from './dto/CriaProduto.dto';
+import { ProdutoService } from './produto.service';
+
+@Controller('produtos')
 export class ProdutoController {
   constructor(private readonly produtoService: ProdutoService) {}
 
   @Post()
   async criaNovo(@Body() dadosProduto: CriaProdutoDTO) {
-    const produtoCadastrado = await this.produtoService.criaProduto(
-      dadosProduto,
-    );
+    const produtoCadastrado =
+      await this.produtoService.criaProduto(dadosProduto);
 
     return {
       mensagem: 'Produto criado com sucesso.',

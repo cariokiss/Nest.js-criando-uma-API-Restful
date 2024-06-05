@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { ProdutoEntity } from "./entity/produto.entity";
-import { Repository } from "typeorm";
-import { ListaProdutoDTO } from "./dto/listaProduto.dto";
-import { AtualizaProdutoDTO } from "./dto/atualizaProduto.dto";
-import { CriaProdutoDTO } from "./dto/CriaProduto.dto";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ProdutoEntity } from './entity/produto.entity';
+import { Repository } from 'typeorm';
+import { ListaProdutoDTO } from './dto/listaProduto.dto';
+import { AtualizaProdutoDTO } from './dto/atualizaProduto.dto';
+import { CriaProdutoDTO } from './dto/CriaProduto.dto';
 
 @Injectable()
 export class ProdutoService {
@@ -50,7 +50,7 @@ export class ProdutoService {
     const entityName = await this.produtoRepository.findOneBy({ id });
 
     if (entityName === null) {
-        throw new NotFoundException('O produto não foi encontrado!')
+      throw new NotFoundException('O produto não foi encontrado!');
     }
 
     Object.assign(entityName, novosDados);

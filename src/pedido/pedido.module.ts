@@ -7,7 +7,9 @@ import { UsuarioEntity } from '../usuario/entity/usuario.entity';
 import { ProdutoEntity } from 'src/produto/entity/produto.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PedidoEntity, UsuarioEntity, ProdutoEntity])],
+  imports: [
+    TypeOrmModule.forFeature([PedidoEntity, UsuarioEntity, ProdutoEntity]),
+  ],
   controllers: [PedidoController],
   providers: [PedidoService],
 })
