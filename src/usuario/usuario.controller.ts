@@ -7,42 +7,28 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { UsuarioRepository } from 'src/usuario/usuario.repository';
 import { CriaUsuarioDto } from './dto/criaUsuario.dto';
-import { UsuarioEntity } from './entity/usuario.entity';
-import { v4 as uuid } from 'uuid';
 import { ListaUsuarioDto } from './dto/listaUsuario.dto';
 import { AtualizaUsuarioDto } from './dto/atualizaUsuario.dto';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
 export class UsuarioController {
-  constructor(
-    private usuarioRepository: UsuarioRepository,
-    private usuarioService: UsuarioService,
-  ) {}
+  constructor(private usuarioService: UsuarioService) {}
 
   @Post()
-  // cria um usuário e pega os dados do corpo da requisição (body)
   async criaUsuario(@Body() dadosDoUsuario: CriaUsuarioDto) {
-    // recebe os dados do UsuarioEntity e gera um uuid
-    const usuarioEntity = new UsuarioEntity();
-    usuarioEntity.email = dadosDoUsuario.email;
-    usuarioEntity.senha = dadosDoUsuario.senha;
-    usuarioEntity.nome = dadosDoUsuario.nome;
-    usuarioEntity.id = uuid();
+    const usuarioCriado = await this.usuarioService.criaUsuario(dadosDoUsuario);
 
-    // salva o usuário criado na memória e passa o usuarioEntity como parâmetro
-    this.usuarioService.criaUsuario(usuarioEntity);
-    // retorna o corpo da requisição (uuid do usuário + messagem de sucesso)
     return {
-      usuario: new ListaUsuarioDto(usuarioEntity.id, usuarioEntity.nome),
+      usuario: new ListaUsuarioDto(usuarioCriado.id, usuarioCriado.nome),
       messagem: 'usuário criado com sucesso',
     };
   }
+
   @Get()
-  async listaUsuarios() {
-    const usuariosSalvos = await this.usuarioService.listaUsuarios();
+  async listUsuarios() {
+    const usuariosSalvos = await this.usuarioService.listUsuarios();
 
     return usuariosSalvos;
   }
@@ -59,7 +45,7 @@ export class UsuarioController {
 
     return {
       usuario: usuarioAtualizado,
-      mensagem: 'usuário atualizado com sucesso',
+      messagem: 'usuário atualizado com sucesso',
     };
   }
 
@@ -69,7 +55,7 @@ export class UsuarioController {
 
     return {
       usuario: usuarioRemovido,
-      message: 'usuário removido com sucesso',
+      messagem: 'usuário removido com suceso',
     };
   }
 }
