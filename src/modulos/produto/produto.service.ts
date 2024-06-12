@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { ListaProdutoDTO } from './dto/listaProduto.dto';
 import { AtualizaProdutoDTO } from './dto/atualizaProduto.dto';
 import { CriaProdutoDTO } from './dto/CriaProduto.dto';
+import { ListaUsuarioDto } from '../usuario/dto/listaUsuario.dto';
 
 @Injectable()
 export class ProdutoService {
@@ -39,6 +40,16 @@ export class ProdutoService {
         ),
     );
     return produtosLista;
+  }
+
+  async listaUm(id: string) {
+      const produtosPorUsuario = await this.produtoRepository.findOneBy({id})
+
+      if (produtosPorUsuario === null) {
+        throw new NotFoundException('O produto não foi encontrado!');
+      }
+
+      return produtosPorUsuario;
   }
 
   async atualizaProduto(id: string, novosDados: AtualizaProdutoDTO) {

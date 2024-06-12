@@ -5,7 +5,7 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { UsuarioRepository } from 'src/usuario/usuario.repository';
+import { UsuarioRepository } from '../usuario.repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
