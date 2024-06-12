@@ -7,16 +7,19 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { CriaPedidoDto } from './dto/criaPedido.dto';
 import { AtualizaPedidoDto } from './dto/atualizaPedido.dto';
+import { AutenticacaoGuard } from '../autenticacao/autenticacao.guard';
 
 @Controller('pedidos')
 export class PedidoController {
   constructor(private readonly pedidoService: PedidoService) {}
 
   @Post()
+  @UseGuards(AutenticacaoGuard)
   async criaPedido(
     @Query('usuarioId') usuarioId: string,
     @Body() dadosDoPedido: CriaPedidoDto,
@@ -29,7 +32,8 @@ export class PedidoController {
   }
 
   @Get()
-  async obtemPedidos(@Query('usuarioId') usuarioId: string) {
+  async obtemPedidos(@Query('usuarioId') usuarioId: string
+  ) {
     const pedidos = await this.pedidoService.listaPedidos(usuarioId);
 
     return pedidos;
