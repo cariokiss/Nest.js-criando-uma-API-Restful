@@ -29,6 +29,7 @@ export class ProdutoController {
   }
 
   @Get()
+  @UseInterceptors(CacheInterceptor)
   async listaTodos() {
     return this.produtoService.listaProdutos();
   }
