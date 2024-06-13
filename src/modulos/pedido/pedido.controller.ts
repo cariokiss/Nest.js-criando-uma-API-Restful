@@ -14,7 +14,7 @@ import { CriaPedidoDto } from './dto/criaPedido.dto';
 import { AtualizaPedidoDto } from './dto/atualizaPedido.dto';
 import { AutenticacaoGuard } from '../autenticacao/autenticacao.guard';
 
-@UseGuards(AutenticacaoGuard)
+  @UseGuards(AutenticacaoGuard)
 @Controller('pedidos')
 export class PedidoController {
   constructor(private readonly pedidoService: PedidoService) {}
