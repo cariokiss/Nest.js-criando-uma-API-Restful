@@ -34,8 +34,9 @@ export class PedidoController {
   }
 
   @Get()
-  async obtemPedidos(@Query('usuarioId') usuarioId: string
+  async obtemPedidos(@Req() req: RequisicaoComUsuario
   ) {
+    const usuarioId= req.usuario.sub
     const pedidos = await this.pedidoService.listaPedidos(usuarioId);
 
     return pedidos;
