@@ -8,22 +8,24 @@ import {
   Delete,
   Query,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { CriaPedidoDto } from './dto/criaPedido.dto';
 import { AtualizaPedidoDto } from './dto/atualizaPedido.dto';
-import { AutenticacaoGuard } from '../autenticacao/autenticacao.guard';
+import { AutenticacaoGuard, RequisicaoComUsuario } from '../autenticacao/autenticacao.guard';
 
-  @UseGuards(AutenticacaoGuard)
+@UseGuards(AutenticacaoGuard)
 @Controller('pedidos')
 export class PedidoController {
   constructor(private readonly pedidoService: PedidoService) {}
 
   @Post()
   async criaPedido(
-    @Query('usuarioId') usuarioId: string,
+    @Req() req: RequisicaoComUsuario,
     @Body() dadosDoPedido: CriaPedidoDto,
   ) {
+    const usuarioId = req.usuario.sub
     const pedidoCriado = await this.pedidoService.cadastraPedido(
       usuarioId,
       dadosDoPedido,
